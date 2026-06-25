@@ -24,7 +24,7 @@ jobs:
 
     - name: Download Legacy Android Build Tools
       run: |
-        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses >/dev/nul
         $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;30.0.3"
 
         # Create the missing legacy 'ndk-bundle' structure via symlink
