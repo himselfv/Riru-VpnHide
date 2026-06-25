@@ -29,6 +29,8 @@ jobs:
 
         # Create the missing legacy 'ndk-bundle' structure via symlink
         ln -s $ANDROID_HOME/ndk/21.4.7075529 $ANDROID_HOME/ndk-bundle
+        ls $ANDROID_HOME/ndk/21.4.7075529
+        ls $ANDROID_HOME/ndk-bundle
 
     # Swap the runner back to Java 11 so the old Gradle code compiles safely
     - name: Set up JDK 11 for Legacy Gradle
