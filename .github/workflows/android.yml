@@ -25,6 +25,13 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
+    # Creates the exact local.properties file the repository's build.gradle is demanding
+    - name: Generate Local Properties
+      run: |
+        echo "android.sdk=$ANDROID_HOME" > local.properties
+        echo "android.buildtools=30.0.3" >> local.properties
+        echo "android.ndk=$ANDROID_HOME/ndk-bundle" >> local.properties
+
     - name: Build with Gradle
       run: ./gradlew build -Pandroid.sdk=$ANDROID_HOME -Pandroid.ndk=$ANDROID_HOME/ndk-bundle -Pandroid.buildtools=30.0.3
 
