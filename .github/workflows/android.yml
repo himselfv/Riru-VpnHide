@@ -15,24 +15,28 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: set up JDK 11
+    # Boot Java 17 strictly to handle modern Google SDK tools
+    - name: Set up JDK 17 for SDK Manager
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Download Legacy Android Build Tools
+      run: |
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;30.0.3"
+
+    # Swap the runner back to Java 11 so the old Gradle code compiles safely
+    - name: Set up JDK 11 for Legacy Gradle
       uses: actions/setup-java@v4
       with:
         java-version: '11'
         distribution: 'temurin'
         cache: gradle
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-
-    # Downloads old Build Tools at runtime and creates the local.properties configuration
-    - name: Setup Android Build Tools & Local Properties
+    - name: Setup Local Properties
       run: |
-        # 1. Accept SDK licenses and install version 30.0.3
-        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
-        $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;30.0.3"
-
-        # 2. Generate local.properties for the custom gradle script
         echo "android.sdk=$ANDROID_HOME" > local.properties
         echo "android.buildtools=30.0.3" >> local.properties
         echo "android.ndk=$ANDROID_HOME/ndk-bundle" >> local.properties
