@@ -53,4 +53,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: riru-vpnhide-module
-        path: app/build/outputs/*.zip
+        path: build/outputs/magisk-module.zip
